@@ -60,6 +60,15 @@ export function TransactionForm() {
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
+  const handleTransactionTypeChange = (newType: string) => {
+    setTransactionType(newType);
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      categoryId: "",
+    }));
+  };
+
   const handleSelectChange = (value: string) => {
     setFormData((prev) => ({ ...prev, categoryId: value }));
   };
@@ -68,8 +77,14 @@ export function TransactionForm() {
     e.preventDefault();
 
     // Validación básica
-    if (!formData.description || !formData.amount || !formData.categoryId) {
-      setFormError("Por favor completa todos los campos");
+    if (!formData.amount || !formData.description || !formData.categoryId) {
+      if (!formData.amount) {
+        setFormError("Por favor completa el monto");
+      } else if (!formData.description) {
+        setFormError("Por favor completa la descripción");
+      } else if (!formData.categoryId) {
+        setFormError("Por favor elije una categoría");
+      }
       return;
     }
 
@@ -104,7 +119,7 @@ export function TransactionForm() {
             <RadioGroup
               defaultValue="GASTO"
               className="flex space-x-4"
-              onValueChange={setTransactionType}
+              onValueChange={handleTransactionTypeChange}
               value={transactionType}
             >
               <div className="flex items-center space-x-2">
