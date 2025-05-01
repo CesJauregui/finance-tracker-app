@@ -78,13 +78,11 @@ export function FinancialSummary() {
                 }
               p-3 rounded-full`}
               >
-                <ArrowUpCircle
-                  className={`h-6 w-6 ${
-                    item.categoryType === "INGRESO"
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }`}
-                />
+                {item.categoryType === "INGRESO" ? (
+                  <ArrowUpCircle className="h-6 w-6 text-green-600" />
+                ) : (
+                  <ArrowDownCircle className="h-6 w-6 text-red-600" />
+                )}
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-500">
@@ -97,7 +95,8 @@ export function FinancialSummary() {
                       : "text-red-600"
                   }`}
                 >
-                  +${item.total.toFixed(2)}
+                  {item.categoryType === "INGRESO" ? "+" : "-"}$
+                  {item.total.toFixed(2)}
                 </p>
               </div>
             </div>
