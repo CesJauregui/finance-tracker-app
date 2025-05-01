@@ -28,9 +28,13 @@ export interface Category {
 }
 
 export interface FinancialSummaryData {
-  balance: number;
-  income: number;
-  expenses: number;
+  totalGeneral: number;
+  totalByCategory: [
+    {
+      categoryType: string;
+      total: number;
+    }
+  ];
 }
 
 const API_URL = "http://localhost:8080/finance/api/v1";
@@ -93,7 +97,7 @@ export async function fetchCategories(): Promise<Category[]> {
 // Función para obtener el resumen financiero
 export async function fetchFinancialSummary(): Promise<FinancialSummaryData> {
   try {
-    const response = await fetch(`${API_URL}/api/summary`);
+    const response = await fetch(`${API_URL}/transactions/summary`);
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
