@@ -6,29 +6,19 @@ import { Badge } from "./ui/Badge";
 import {
   ArrowDownCircle,
   ArrowUpCircle,
-  ShoppingBag,
-  Home,
-  Car,
-  Coffee,
-  Gift,
-  Briefcase,
+  TrendingUp,
+  TrendingDown,
   Loader2,
 } from "lucide-react";
 import { fetchTransactions, type Transaction } from "../services/api";
 import { Button } from "./ui/Button";
 
 // Función para obtener el icono según la categoría
-function getCategoryIcon(category: string, type: string) {
-  if (type === "Ingreso") {
-    if (category === "salary") return <Briefcase className="h-5 w-5" />;
-    if (category === "freelance") return <Briefcase className="h-5 w-5" />;
-    return <Gift className="h-5 w-5" />;
+function getCategoryIcon(type: string) {
+  if (type === "INGRESO") {
+    return <TrendingUp className="h-5 w-5" />;
   } else {
-    if (category === "food") return <ShoppingBag className="h-5 w-5" />;
-    if (category === "transport") return <Car className="h-5 w-5" />;
-    if (category === "housing") return <Home className="h-5 w-5" />;
-    if (category === "entertainment") return <Coffee className="h-5 w-5" />;
-    return <ShoppingBag className="h-5 w-5" />;
+    return <TrendingDown className="h-5 w-5" />;
   }
 }
 
@@ -99,10 +89,7 @@ export function TransactionList() {
                       : "bg-green-100 text-green-600"
                   }`}
                 >
-                  {getCategoryIcon(
-                    transaction.category.nameCategory,
-                    transaction.typeCategory
-                  )}
+                  {getCategoryIcon(transaction.typeCategory)}
                 </div>
                 <div>
                   <p className="font-medium">{transaction.description}</p>
