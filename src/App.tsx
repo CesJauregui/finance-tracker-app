@@ -8,6 +8,7 @@ import { FinancialSummary } from "./components/FinancialSummary";
 import { ExpenseChart } from "./components/ExpenseChart";
 import { setupMockServer } from "./mock/server";
 import "./App.css";
+import { CategoryForm } from "./components/CategoryForm";
 
 function App() {
   // Inicializar el servidor mock para pruebas locales
@@ -30,7 +31,12 @@ function App() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div>
-            <h2 className="text-xl font-semibold mb-4">Agregar Transacción</h2>
+            <h2 className="text-xl font-semibold mb-4 flex justify-between">
+              Agregar Transacción
+              <div className="-mt-2">
+                <CategoryForm />
+              </div>
+            </h2>
             <TransactionForm />
           </div>
           <div>

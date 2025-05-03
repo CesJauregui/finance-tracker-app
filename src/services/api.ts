@@ -94,6 +94,30 @@ export async function fetchCategories(): Promise<Category[]> {
   }
 }
 
+// Función para registrar una categoría
+export async function createCategory(
+  category: Omit<Category, "id">
+): Promise<Category> {
+  try {
+    const response = await fetch(`${API_URL}/categories`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(category),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error creating category:", error);
+    throw error;
+  }
+}
+
 // Función para obtener el resumen financiero
 export async function fetchFinancialSummary(): Promise<FinancialSummaryData> {
   try {
