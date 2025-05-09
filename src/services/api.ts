@@ -37,7 +37,7 @@ export interface FinancialSummaryData {
   ];
 }
 
-const API_URL = import.meta.env.API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 // Función para obtener todas las transacciones
 export async function fetchTransactions(): Promise<Transaction[]> {

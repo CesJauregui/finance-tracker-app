@@ -1,24 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
 import { DashboardHeader } from "./components/DashboardHeader";
 import { TransactionForm } from "./components/TransactionForm";
 import { TransactionList } from "./components/TransactionList";
 import { FinancialSummary } from "./components/FinancialSummary";
 import { ExpenseChart } from "./components/ExpenseChart";
-import { setupMockServer } from "./mock/server";
 import "./App.css";
 import { CategoryForm } from "./components/CategoryForm";
 
 function App() {
-  // Inicializar el servidor mock para pruebas locales
-  useEffect(() => {
-    // Solo inicializar el servidor mock si estamos en desarrollo
-    if (import.meta.env.DEV) {
-      setupMockServer();
-    }
-  }, []);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <DashboardHeader />
