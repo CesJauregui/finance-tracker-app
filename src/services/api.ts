@@ -37,7 +37,7 @@ export interface FinancialSummaryData {
   ];
 }
 
-const API_URL = "http://localhost:8080/finance/api/v1";
+const API_URL = import.meta.env.API_URL;
 
 // Función para obtener todas las transacciones
 export async function fetchTransactions(): Promise<Transaction[]> {
