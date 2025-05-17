@@ -48,8 +48,25 @@ export function FinancialSummary() {
     );
   }
 
+  const defaultCategories = [
+    { categoryType: "INGRESO", total: 0 },
+    { categoryType: "GASTO", total: 0 },
+  ];
+
+  const categoriesToShow = defaultCategories.map((def) => {
+    const found = summary?.totalByCategory?.find(
+      (item) => item.categoryType === def.categoryType
+    );
+    return found ? found : def;
+  });
+
+  let total: number = 0;
+  summary?.totalByCategory.map((t) => {
+    total = t.total;
+  });
+
   // Valores por defecto en caso de que no haya datos
-  const balance = summary?.totalGeneral ?? 0;
+  const balance = summary?.totalGeneral ?? total;
 
   return (
     <>
@@ -66,7 +83,7 @@ export function FinancialSummary() {
           </div>
         </CardContent>
       </Card>
-      {summary?.totalByCategory.map((item) => (
+      {categoriesToShow.map((item) => (
         <Card className="bg-white" key={item.categoryType}>
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
@@ -76,7 +93,7 @@ export function FinancialSummary() {
                     ? "bg-green-100"
                     : "bg-red-100"
                 }
-              p-3 rounded-full`}
+          p-3 rounded-full`}
               >
                 {item.categoryType === "INGRESO" ? (
                   <ArrowUpCircle className="h-6 w-6 text-green-600" />
@@ -86,7 +103,7 @@ export function FinancialSummary() {
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-500">
-                  {item.categoryType}
+                  {item.categoryType + "S"}
                 </p>
                 <p
                   className={`text-2xl font-bold ${
