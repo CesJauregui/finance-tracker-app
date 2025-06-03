@@ -39,10 +39,27 @@ export interface FinancialSummaryData {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+function getToken(): string | null {
+  const item = localStorage.getItem("user");
+  if (!item) return null;
+
+  try {
+    return JSON.parse(item).token;
+  } catch (e) {
+    return null;
+  }
+}
+
+const token = getToken();
+
 // Función para obtener todas las transacciones
 export async function fetchTransactions(): Promise<Transaction[]> {
   try {
-    const response = await fetch(`${API_URL}/transactions`);
+    const response = await fetch(`${API_URL}/transactions`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -64,6 +81,7 @@ export async function createTransaction(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(transaction),
     });
@@ -82,7 +100,11 @@ export async function createTransaction(
 // Función para obtener las categorías
 export async function fetchCategories(): Promise<Category[]> {
   try {
-    const response = await fetch(`${API_URL}/categories`);
+    const response = await fetch(`${API_URL}/categories`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
@@ -103,6 +125,7 @@ export async function createCategory(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(category),
     });
@@ -121,7 +144,11 @@ export async function createCategory(
 // Función para obtener el resumen financiero
 export async function fetchFinancialSummary(): Promise<FinancialSummaryData> {
   try {
-    const response = await fetch(`${API_URL}/transactions/summary`);
+    const response = await fetch(`${API_URL}/transactions/summary`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
