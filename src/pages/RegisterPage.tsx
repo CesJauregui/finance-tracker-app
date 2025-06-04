@@ -20,7 +20,8 @@ import { Loader2 } from "lucide-react";
 
 export function RegisterPage() {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [surname, setSurname] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
@@ -39,7 +40,7 @@ export function RegisterPage() {
     }
 
     try {
-      await register(name, email, password);
+      await register(username, password, name, surname);
       navigate("/dashboard");
     } catch (err) {
       // El error ya se maneja en el contexto de autenticación
@@ -83,23 +84,33 @@ export function RegisterPage() {
           )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Nombre completo</Label>
+              <Label htmlFor="name">Nombre</Label>
               <Input
                 id="name"
-                placeholder="Juan Pérez"
+                placeholder=""
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Correo electrónico</Label>
+              <Label htmlFor="surname">Apellidos</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="tu@ejemplo.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="surname"
+                placeholder=""
+                value={surname}
+                onChange={(e) => setSurname(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="username">Nombre de usuario</Label>
+              <Input
+                id="username"
+                type="text"
+                placeholder=""
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </div>

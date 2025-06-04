@@ -39,21 +39,10 @@ export interface FinancialSummaryData {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-function getToken(): string | null {
-  const item = localStorage.getItem("user");
-  if (!item) return null;
-
-  try {
-    return JSON.parse(item).token;
-  } catch (e) {
-    return null;
-  }
-}
-
-const token = getToken();
-
 // Función para obtener todas las transacciones
-export async function fetchTransactions(): Promise<Transaction[]> {
+export async function fetchTransactions(
+  token: string | null
+): Promise<Transaction[]> {
   try {
     const response = await fetch(`${API_URL}/transactions`, {
       headers: {
@@ -73,9 +62,13 @@ export async function fetchTransactions(): Promise<Transaction[]> {
 }
 
 // Función para crear una nueva transacción
-export async function createTransaction(
-  transaction: Omit<CreateTransaction, "id">
-): Promise<CreateTransaction> {
+export async function createTransaction({
+  transaction,
+  token,
+}: {
+  transaction: Omit<CreateTransaction, "id">;
+  token: string | null;
+}): Promise<CreateTransaction> {
   try {
     const response = await fetch(`${API_URL}/transactions`, {
       method: "POST",
@@ -98,7 +91,9 @@ export async function createTransaction(
 }
 
 // Función para obtener las categorías
-export async function fetchCategories(): Promise<Category[]> {
+export async function fetchCategories(
+  token: string | null
+): Promise<Category[]> {
   try {
     const response = await fetch(`${API_URL}/categories`, {
       headers: {
@@ -117,9 +112,13 @@ export async function fetchCategories(): Promise<Category[]> {
 }
 
 // Función para registrar una categoría
-export async function createCategory(
-  category: Omit<Category, "id">
-): Promise<Category> {
+export async function createCategory({
+  category,
+  token,
+}: {
+  category: Omit<Category, "id">;
+  token: string | null;
+}): Promise<Category> {
   try {
     const response = await fetch(`${API_URL}/categories`, {
       method: "POST",
@@ -142,7 +141,9 @@ export async function createCategory(
 }
 
 // Función para obtener el resumen financiero
-export async function fetchFinancialSummary(): Promise<FinancialSummaryData> {
+export async function fetchFinancialSummary(
+  token: string | null
+): Promise<FinancialSummaryData> {
   try {
     const response = await fetch(`${API_URL}/transactions/summary`, {
       headers: {

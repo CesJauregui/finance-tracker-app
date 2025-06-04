@@ -23,6 +23,7 @@ interface AuthContextType {
     surname: string
   ) => Promise<void>;
   logout: () => void;
+  token: string | null;
 }
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -90,17 +91,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   // Función para registrar un nuevo usuario
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (
+    username: string,
+    password: string,
+    name: string,
+    surname: string
+  ) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await fetch("/api/auth/register", {
+      const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ username, password, name, surname }),
       });
 
       if (!response.ok) {
@@ -124,13 +130,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem("user");
   };
 
-  const value = {
+  function getToken(): string | null {
+    const item = localStorage.getItem("user");
+    if (!item) return null;
+
+    try {
+      return JSON.parse(item).token;
+    } catch (e) {
+      return null;
+    }
+  }
+  const token = getToken();
+
+  const value: AuthContextType = {
     user,
     isLoading,
     error,
     login,
     register,
     logout,
+    token,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

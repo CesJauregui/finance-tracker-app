@@ -3,15 +3,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchCategories } from "../services/api";
 import { SelectContent, SelectItem } from "./ui/Select";
-
+import { useAuth } from "../context/AuthContext";
 export function CategoryList({ transactionType }: { transactionType: string }) {
+  const { token } = useAuth();
   const {
     data: categories,
     isLoading,
     isError,
   } = useQuery({
     queryKey: ["categories"],
-    queryFn: fetchCategories,
+    queryFn: () => fetchCategories(token),
   });
 
   if (isLoading) return <p>Cargando categorías...</p>;

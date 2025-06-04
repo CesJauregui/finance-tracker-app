@@ -3,6 +3,7 @@ import { Modal } from "./ui/Modal";
 import { Button } from "./ui/Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCategory } from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 export function CategoryForm() {
   const [open, setOpen] = useState(false);
@@ -14,6 +15,7 @@ export function CategoryForm() {
   });
   const queryClient = useQueryClient();
   const [formError, setFormError] = useState<string | null>(null);
+  const { token } = useAuth();
   const mutation = useMutation({
     mutationFn: createCategory,
     onSuccess: () => {
@@ -59,7 +61,7 @@ export function CategoryForm() {
       typeCategory: formDataModal.typeCategory,
     };
 
-    mutation.mutate(category);
+    mutation.mutate({ category, token });
     handleClose();
   };
 

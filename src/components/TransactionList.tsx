@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { fetchTransactions, type Transaction } from "../services/api";
 import { Button } from "./ui/Button";
+import { useAuth } from "../context/AuthContext";
 
 // Función para obtener el icono según la categoría
 function getCategoryIcon(type: string) {
@@ -23,6 +24,7 @@ function getCategoryIcon(type: string) {
 }
 
 export function TransactionList() {
+  const { token } = useAuth();
   // Usar React Query para obtener las transacciones
   const {
     data: transactions,
@@ -32,7 +34,7 @@ export function TransactionList() {
     refetch,
   } = useQuery({
     queryKey: ["transactions"],
-    queryFn: fetchTransactions,
+    queryFn: () => fetchTransactions(token),
   });
 
   // Mostrar estado de carga

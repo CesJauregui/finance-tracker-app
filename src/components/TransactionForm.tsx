@@ -13,6 +13,7 @@ import { Card, CardContent } from "./ui/Card";
 import { createTransaction } from "../services/api";
 import { Loader2 } from "lucide-react";
 import { CategoryList } from "./CategoryList";
+import { useAuth } from "../context/AuthContext";
 
 export function TransactionForm() {
   const queryClient = useQueryClient();
@@ -26,6 +27,7 @@ export function TransactionForm() {
     userId: 1,
   });
   const [formError, setFormError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   // Usar React Query para la mutación (crear transacción)
   const mutation = useMutation({
@@ -101,7 +103,7 @@ export function TransactionForm() {
     console.log(transaction); // Depuración: Verifica el objeto antes de enviarlo
 
     // Enviar la transacción
-    mutation.mutate(transaction);
+    mutation.mutate({ transaction, token });
   };
 
   return (

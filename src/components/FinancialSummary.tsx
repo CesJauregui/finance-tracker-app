@@ -5,8 +5,9 @@ import { Card, CardContent } from "./ui/Card";
 import { ArrowDownCircle, ArrowUpCircle, Wallet, Loader2 } from "lucide-react";
 import { fetchFinancialSummary } from "../services/api";
 import { Button } from "./ui/Button";
-
+import { useAuth } from "../context/AuthContext";
 export function FinancialSummary() {
+  const { token } = useAuth();
   // Usar React Query para obtener el resumen financiero
   const {
     data: summary,
@@ -16,7 +17,7 @@ export function FinancialSummary() {
     refetch,
   } = useQuery({
     queryKey: ["summary"],
-    queryFn: fetchFinancialSummary,
+    queryFn: () => fetchFinancialSummary(token),
   });
 
   // Mostrar estado de carga
