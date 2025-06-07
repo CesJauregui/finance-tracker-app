@@ -18,13 +18,14 @@ import { useAuth } from "../context/AuthContext";
 export function TransactionForm() {
   const queryClient = useQueryClient();
   const [transactionType, setTransactionType] = useState("GASTO");
+  const user = useAuth();
   const [formData, setFormData] = useState({
     typeCategory: "GASTO",
     description: "",
     amount: "",
     categoryId: "",
     date: new Date().toISOString().split("T")[0],
-    userId: 1,
+    userId: user.id,
   });
   const [formError, setFormError] = useState<string | null>(null);
   const { token } = useAuth();
@@ -45,7 +46,7 @@ export function TransactionForm() {
         amount: "",
         categoryId: "",
         date: new Date().toISOString().split("T")[0],
-        userId: 1,
+        userId: user.id,
       });
 
       setFormError(null);
@@ -97,7 +98,7 @@ export function TransactionForm() {
       description: formData.description,
       date: formData.date, // Fecha en formato "YYYY-MM-DD"
       categoryId: parseInt(formData.categoryId), // ID de la categoría (asegúrate de que sea un número)
-      userId: 1, // ID del usuario (puedes reemplazarlo con el ID dinámico si es necesario)
+      userId: user.id, // ID del usuario (puedes reemplazarlo con el ID dinámico si es necesario)
     };
 
     console.log(transaction); // Depuración: Verifica el objeto antes de enviarlo

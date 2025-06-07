@@ -9,9 +9,12 @@ export function CategoryForm() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const user = useAuth();
+
   const [formDataModal, setFormDataModal] = useState({
     nameCategory: "",
     typeCategory: "GASTO",
+    userId: user.id,
   });
   const queryClient = useQueryClient();
   const [formError, setFormError] = useState<string | null>(null);
@@ -24,6 +27,7 @@ export function CategoryForm() {
       setFormDataModal({
         nameCategory: "",
         typeCategory: "GASTO",
+        userId: user.id,
       });
 
       setFormError(null);
@@ -59,6 +63,7 @@ export function CategoryForm() {
     const category = {
       nameCategory: formDataModal.nameCategory,
       typeCategory: formDataModal.typeCategory,
+      userId: user.id,
     };
 
     mutation.mutate({ category, token });

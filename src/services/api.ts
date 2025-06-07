@@ -25,6 +25,7 @@ export interface Category {
   id: number;
   nameCategory: string;
   typeCategory: string;
+  userId: number;
 }
 
 export interface FinancialSummaryData {

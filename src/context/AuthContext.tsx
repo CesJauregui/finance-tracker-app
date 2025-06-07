@@ -24,6 +24,7 @@ interface AuthContextType {
   ) => Promise<void>;
   logout: () => void;
   token: string | null;
+  id: number;
 }
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -142,6 +143,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
   const token = getToken();
 
+  function getId(): number {
+    const item = localStorage.getItem("user");
+    if (!item) return 0;
+
+    try {
+      return JSON.parse(item).userId;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  const id = getId();
+
   const value: AuthContextType = {
     user,
     isLoading,
@@ -150,6 +164,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     register,
     logout,
     token,
+    id,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
